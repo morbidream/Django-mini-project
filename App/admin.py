@@ -19,18 +19,24 @@ class ProjetAdmin(admin.ModelAdmin):
     list_per_page = 2
 
     def set_to_valid(self,request, queryset):
-        queryset.update(est_valide=True)
+        x=queryset.update(est_valide=True)
+        if(x!=0):
+            messages.success(request,"%s Project updated successfully! "%x)
 
     def set_to_invalid(self,request, queryset):
         row_invalid = queryset.filter(est_valide=False)
         if(row_invalid.count()>0):
-            messages.errors(request,"%s this article is already invalid"%row_invalid.count())
-        #queryset.update(est_valide=False)
+            messages.error(request,"%s this article is already invalid"%row_invalid.count())
+        else:
+            x=queryset.update(est_valide=False)
+            if(x!=0):
+                messages.success(request,"%s Project updated successfully! "%x)
 
 
     set_to_valid.short_description= 'validate project'
     set_to_invalid.short_description= 'invalidate project'
     actions = ['set_to_valid','set_to_invalid']
+    #actions_on_bottom = True
 
 
 
