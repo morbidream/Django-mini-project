@@ -1,15 +1,19 @@
 from django.contrib import admin,messages
 
 # Register your models here.
-from App.models import Etudiant, Coach, Projet
+from App.models import Etudiant, Coach, Projet, MembershipInProject
 
 admin.site.register(Etudiant)
 admin.site.register(Coach)
 # admin.site.register(Projet, ProjetAdmin)
 
+class Membership(admin.TabularInline): #StackedInline
+    model=MembershipInProject
+    extra=1
 
 @admin.register(Projet)
 class ProjetAdmin(admin.ModelAdmin):
+    inlines = (Membership,)
     list_display = (
     'nom_projet', 'superviseur', 'duree_projet', 'temps_alloue_par_projet', 'besoins', 'est_valide', 'createur',)
     fieldsets = (('A propos', {'fields': ('nom_projet', 'besoins', 'description',)}),
@@ -37,6 +41,9 @@ class ProjetAdmin(admin.ModelAdmin):
     set_to_invalid.short_description= 'invalidate project'
     actions = ['set_to_valid','set_to_invalid']
     #actions_on_bottom = True
+
+    list_filter=('est_valide','createur')
+    search_fields = ['nom_projet']
 
 
 
