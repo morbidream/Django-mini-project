@@ -23,7 +23,7 @@ class ProjetAdmin(admin.ModelAdmin):
 
     def set_to_invalid(self,request, queryset):
         row_invalid = queryset.filter(est_valide=False)
-        if(row_invalid.count()>0)
+        if(row_invalid.count()>0):
             messages.errors(request,"%s this article is already invalid"%row_invalid.count())
         #queryset.update(est_valide=False)
 
