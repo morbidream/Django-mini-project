@@ -15,6 +15,7 @@
         <th>Creator</th>
         <th>Supervisor</th>
         <th>State</th>
+        <th>Delete</th>
     </tr>
     {% for p in pp %}
         <tr>
@@ -23,8 +24,10 @@
             <td>{{ p.createur }}</td>
             <td>{{ p.superviseur }}</td>
             <td>{{ p.est_valide }}</td>
+            <td><a href="{% url 'dd' %}">Delete</a></td>
         </tr>
     {% endfor %}
 </table>
+<a href="{% url 'addadd' %}">Add a new project</a>
 </body>
 </html>

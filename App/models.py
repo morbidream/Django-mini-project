@@ -18,7 +18,7 @@ class User(models.Model):
     email = models.EmailField('Email', validators=[is_esprit_email])
     def __str__(self):
         #return 'le prenom: '+self.prenom+', le nom: '+self.nom
-        return f'le prenom {self.prenom} le nom {self.nom}'
+        return f'First name:  {self.prenom} , Last name: {self.nom}'
 
 class Etudiant(User):
     groupe = models.CharField(max_length=30)

@@ -1,10 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
 
+from .forms import AddProjectForm
 # Create your views here.
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 
-
+from App.forms import AddProjectForm
 from App.models import Projet
 
 
@@ -29,4 +31,30 @@ class Display2(ListView):
     model=Projet
     template_name ='App/display.html'
     context_object_name = 'pp'
+
+def AddProject(request):
+        if request.method == "GET":
+            form = AddProjectForm()
+            return render(request,'App/AddProject.html',
+                          {'f': form})
+
+        if request.method == "POST":
+            form = AddProjectForm(request.POST)
+            if form.is_valid():
+                result = form.save() #result = form.save(commit = False)
+                result.save()
+                return HttpResponseRedirect(reverse('displayy'))
+
+            else:
+                return render(request, 'App/AddProject.html',
+                              {'f': form,
+                               'msg_error': "Could not add a new project."})
+
+class AddP(CreateView):
+    model = Projet
+    fields = ('nom_projet', 'createur', 'superviseur', 'duree_projet', 'temps_alloue_par_projet',
+              'besoins', 'description', 'est_valide')
+    success_url =  reverse_lazy('addd')
+    #template_name = "AddProject.html"
+
 
