@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 
 from .forms import AddProjectForm
 # Create your views here.
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 
 from App.forms import AddProjectForm
 from App.models import Projet
@@ -54,7 +54,16 @@ class AddP(CreateView):
     model = Projet
     fields = ('nom_projet', 'createur', 'superviseur', 'duree_projet', 'temps_alloue_par_projet',
               'besoins', 'description', 'est_valide')
-    success_url =  reverse_lazy('addd')
+    success_url =  reverse_lazy('displayy')
     #template_name = "AddProject.html"
 
 
+def DeleteProject(request,id):
+    #request.POST['id']
+    project = Projet.objects.get(pk=id)
+    project.delete()
+    return HttpResponseRedirect(reverse('disp'))
+
+class DeleteP(DeleteView):
+    model = Projet
+    success_url = reverse_lazy('disp')

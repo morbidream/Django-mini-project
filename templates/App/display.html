@@ -24,7 +24,7 @@
             <td>{{ p.createur }}</td>
             <td>{{ p.superviseur }}</td>
             <td>{{ p.est_valide }}</td>
-            <td><a href="{% url 'dd' %}">Delete</a></td>
+            <td><a href="{% url 'dl' p.id %}">Delete</a></td>
         </tr>
     {% endfor %}
 </table>
