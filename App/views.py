@@ -1,5 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
 from .forms import AddProjectForm
@@ -67,3 +70,37 @@ def DeleteProject(request,id):
 class DeleteP(DeleteView):
     model = Projet
     success_url = reverse_lazy('disp')
+
+
+def loginuser(request):
+    if request.method == "POST":
+        u = request.POST['username']
+        pwd = request.POST['pwd']
+        user = authenticate(request, username= u, password= pwd)
+        if user is not None:
+            login(request,user)
+            return redirect('disp')
+        else:
+            messages.info(request, 'username or passsword not valid')
+            return redirect('login')
+    else:
+        return render(request, 'login.html')
+
+
+def logoutuser(request):
+    logout(request)
+    return redirect('login')
+
+def registeruser(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+            form = UserCreationForm()
+    return render(request, 'register.html', {'f':form})
+
+
+def home(request):
+    return render(request, 'base.html')

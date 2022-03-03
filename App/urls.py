@@ -13,7 +13,11 @@ urlpatterns = [
     path('add/', views.AddProject, name='addadd'),
     path('addproject/', views.AddP.as_view(), name='addd'),
     #path('delete1/<int:id>', views.DeleteProject, name='dd'),
-    path('delete/<int:pk>', views.DeleteP.as_view(), name='dl')
+    path('delete/<int:pk>', views.DeleteP.as_view(), name='dl'),
+    path('login/', views.loginuser, name='login'),
+    path('logout/', views.logoutuser, name='logout'),
+    path('register/', views.registeruser, name='register'),
+    path('home/', views.home, name='home'),
 
 
 ]
